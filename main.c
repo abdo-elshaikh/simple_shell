@@ -6,8 +6,14 @@
  * @argv: get argument vector
  * Return: 0
  */
-int main(int argc, char *argv[])
+int main(int argc, char argv[])
 {
-    printf("Hello World!\n");
-    return 0;
+    if (argc!= 2)
+    {
+        _putstr("Usage:./shell <command>\n");
+        return (0);
+    }
+    _putstr(argv[1]);
+    _putchar('\n');
+    return (0);
 }
