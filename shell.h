@@ -23,8 +23,12 @@
 /* Include the global variable 'environ' */
 extern char **environ;
 
-
-
-/* proto types*/
+/* Ffunction prototypes */
+int new_process(char **args);
+void free_args(char **args);
+char **parse_command(char *command);
+void change_directory(char *path);
+void execute_shell_command(char *command);
+void print_current_directory();
 
 #endif
