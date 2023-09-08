@@ -23,7 +23,7 @@
 /* Include the global variable 'environ' */
 extern char **environ;
 
-/* Ffunction prototypes */
+/* functions_prototype */
 int new_process(char **args);
 void free_args(char **args);
 char **parse_command(char *command);
