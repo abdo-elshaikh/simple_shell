@@ -78,7 +78,29 @@ int execute_command(char **args)
         // Parent process
         do
         {
-            wpid = waitpid(pid, &status, WUNTRACED);
+            wpid = waitpid(pid, &status, 0);
+            if (wpid == -1)
+            {
+                perror("waitpid");
+                exit(EXIT_FAILURE);
+            }
+            if (WIFEXITED(status))
+            {
+                return WEXITSTATUS(status);
+            }
+            if (WIFSIGNALED(status))
+            {
+                return WTERMSIG(status);
+            }
+            if (WIFSTOPPED(status))
+            {
+                return WSTOPSIG(status);
+            }
+            if (WIFCONTINUED(status))
+            {
+                return (EXIT_FAILURE);
+            }
+
         } while (!WIFEXITED(status) && !WIFSIGNALED(status));
     }
 
@@ -90,10 +112,11 @@ int main(void)
     char *input;
     char **args;
     int status;
+    char *sh = "./hsh: ";
 
     while (1)
     {
-        printf("$ ");
+        printf(sh);
         input = read_line();
         args = parse_input(input);
         status = execute_command(args);
@@ -103,9 +126,8 @@ int main(void)
 
         if (status == 0)
         {
-            break;
+            exit(0)
         }
     }
-
-    return 0;
+    return (0);
 }
