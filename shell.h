@@ -2,8 +2,9 @@
 #define SHELL_H_
 
 <<<<<<< HEAD
-/* add reqired lib */
-=======
+    /* add reqired lib */
+    == == ==
+    =
 /* add required libraries*/
 >>>>>>> 2ae9993b109d7b044b6c87e905e8a825ac69f97a
 #include <stdio.h>
@@ -41,8 +42,8 @@
 #define CLEAR_SCREEN_LINE "\033[2J\033[1;1H\033[2K"
 #define CLEAR_LINE_SCREEN "\033[2K\033[1;1H"
 
-/*Clearing prototypes */
-void clear();
+        /*Clearing prototypes */
+    void clear();
 void clearLine();
 void clearScreenLine();
 void clearLineScreen();
@@ -67,7 +68,7 @@ char *_strcat(char *str1, char *str2);
 char *_strrev(char *str);
 char *_strchr(char *str, char c);
 int _putchar(char c);
-int _putstr(char *str)
+int _putstr(char *str);
 
 /**
  * struct passinfo - contains pseudo-arguements to pass into a function,
@@ -91,7 +92,7 @@ int _putstr(char *str)
  * @readfd: the fd from which to read line input
  * @histcount: the history line number count
  */
-typedef struct s_passinfo 
+typedef struct s_passinfo
 {
     char *arg;
     char **argv;
@@ -147,7 +148,6 @@ typedef struct s_history
     char *history;
     struct s_history *next;
 } history_t;
-
 
 /* functions_prototype */
 int new_process(char **args);
