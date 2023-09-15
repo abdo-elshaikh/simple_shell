@@ -46,27 +46,24 @@ int shell_exit(char **args)
  */
 int shell_help(char **args)
 {
-    char *help[] = {
-        "cd",
-        "exit",
-        "env",
-        "setenv",
-        "unsetenv",
-        "help",
-    };
-    long unsigned int i = 0;
-    (void)args;
 
-    /* print help */
-    printf("\n Shell built-in commands:\n");
-    printf("Usage: %s [command]\n", args[0]);
-    printf("\n");
-    printf("Available commands:\n");
-
-    for (i = 0; i < sizeof(help) / sizeof(help[0]); i++)
+    if (strcmp(args[0], "help") == 0 && args[1] != NULL)
     {
-        printf("%s\n", help[i]);
+        if (strcmp(args[1], "help") == 0)
+            fprintf(stderr, "help: show this help\n");
+        if (strcmp(args[1], "cd") == 0)
+            fprintf(stderr, "cd: change directory\n");
+        if (strcmp(args[1], "exit") == 0)
+            fprintf(stderr, "exit: exit with status 0\n");
+        if (strcmp(args[1], "env") == 0)
+            fprintf(stderr, "env: print environment\n");
+        if (strcmp(args[1], "setenv") == 0)
+            fprintf(stderr, "setenv: set environment\n");
+        if (strcmp(args[1], "unsetenv") == 0)
+            fprintf(stderr, "unsetenv: unset environment\n");
     }
-    printf("use \"help [command]\" for more information\n");
+    else
+        fprintf(stderr, " %s: command not found\n", args[1]);
+
     return (-1);
 }
