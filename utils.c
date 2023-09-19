@@ -1,17 +1,17 @@
 #include "shell.h"
-
 /**
  * free_line - free a line
- * @param line: line to free
+ * @line: line to free
  * Return: Nothing
 */
 void free_line(char *line)
 {
     free(line);
 }
+
 /**
  * free_line_array - free a line array
- * @param line: line array to free
+ * @line: line array to free
  * Return: Nothing
 */
 void free_line_array(char **line)
@@ -27,7 +27,7 @@ void free_line_array(char **line)
 
 /**
  * free_args - free arguments
- * @param args: arguments to free
+ * @args: arguments to free
  * Return: Nothing
 */
 void free_args(char **args)

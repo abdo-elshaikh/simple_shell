@@ -7,36 +7,130 @@
  */
 int execute_command(char **args)
 {
-    if (args[0] == NULL)
-    {
-        return (0);
-    }
-    else if (strcmp(args[0], "cd") == 0)
-    {
-        return (shell_cd(args));
-    }
-    else if (strcmp(args[0], "exit") == 0)
-    {
+    if (args[0] == NULL || args[0][0] == '\0')
+        return (1);
+
+    /* check if command is a builtin */
+    if (strcmp(args[0], "exit") == 0)
         return (shell_exit(args));
-    }
-    else if (strcmp(args[0], "env") == 0)
-    {
+    if (strcmp(args[0], "pwd") == 0)
+        return (shell_pwd(args));
+    if (strcmp(args[0], "cd") == 0)
+        return (shell_cd(args));
+    if (strcmp(args[0], "env") == 0)
         return (shell_env(args));
-    }
-    else if (strcmp(args[0], "setenv") == 0)
-    {
+    if (strcmp(args[0], "setenv") == 0)
         return (shell_setenv(args));
-    }
-    else if (strcmp(args[0], "unsetenv") == 0)
-    {
+    if (strcmp(args[0], "unsetenv") == 0)
         return (shell_unsetenv(args));
-    }
-    else if (strcmp(args[0], "help") == 0)
-    {
+    if (strcmp(args[0], "env") == 0)
+        return (shell_env(args));
+    if (strcmp(args[0], "help") == 0)
         return (shell_help(args));
+    if (strcmp(args[0], "clear") == 0)
+        return (shell_clear(args));
+    if (strcmp(args[0], "alias") == 0)
+        return (shell_alias(args));
+    if (strcmp(args[0], "echo") == 0)
+        return (shell_echo(args));
+
+    /* Check for input and output redirection */
+    int input = STDIN_FILENO;
+    int output = STDOUT_FILENO;
+    int append = 0;
+    int i;
+    int status;
+
+    for (i = 0; args[i] != NULL; i++)
+    {
+        if (strcmp(args[i], "<") == 0)
+        {
+            if (args[i + 1] != NULL)
+            {
+                input = open(args[i + 1], O_RDONLY);
+                if (input == -1)
+                    return (1);
+                args[i] = NULL;
+                i++;
+                append = 0;
+            }
+            else
+                return (1);
+        }
+        else if (strcmp(args[i], ">") == 0)
+        {
+            if (args[i + 1] != NULL)
+            {
+                output = open(args[i + 1], O_CREAT | O_WRONLY | O_TRUNC, 0644);
+                if (output == -1)
+                    return (1);
+                args[i] = NULL;
+                i++;
+                append = 1;
+            }
+            else
+                return (1);
+        }
+        else if (strcmp(args[i], ">>") == 0 || strcmp(args[i], ">>") == 0)
+        {
+            if (args[i + 1] != NULL)
+            {
+                output = open(args[i + 1], O_CREAT | O_WRONLY | O_APPEND, 0644);
+                if (output == -1)
+                    return (1);
+                args[i] = NULL;
+                i++;
+                append = 1;
+            }
+        }
+        else
+        {
+            fprintf(stderr, "%s: command not found\n", args[0]);
+            return (1);
+        }
+    }
+
+    /* create child process */
+    pid_t pid;
+
+    pid = fork();
+    if (pid == 0)
+    {
+        /* redirect input and output if needed */
+        if (input != STDIN_FILENO)
+        {
+            if (dup2(input, STDIN_FILENO) == -1)
+            {
+                perror("dup2");
+                exit(EXIT_FAILURE);
+            }
+            close(input);
+        }
+        if (output != STDOUT_FILENO)
+        {
+            if (dup2(output, STDOUT_FILENO) == -1)
+            {
+                perror("dup2");
+                exit(EXIT_FAILURE);
+            }
+            close(output);
+        }
+        if (append)
+            args[i] = NULL;
+        execvp(args[0], args);
+        perror("execvp");
+        exit(EXIT_FAILURE);
     }
     else
     {
-        return (new_process(args));
+        /* parent process wait for child process*/
+        if (input != STDIN_FILENO)
+            close(input);
+        if (output != STDOUT_FILENO)
+            close(output);
+        waitpid(pid, &status, 0);
+        last_command_status = WIFEXITED(status) ? WEXITSTATUS(status) : 1;
+        return (last_command_status);
+        
     }
 }

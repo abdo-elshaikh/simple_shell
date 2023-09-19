@@ -12,13 +12,14 @@ char *read_line(void)
     {
         if (feof(stdin))
         {
-            free(line);
+            free_line(line);
+            fprintf(stderr, "fgets");
             exit(EXIT_SUCCESS);
         }
         else
         {
-            free(line);
-            perror("getline error");
+            free_line(line);
+            perror("readline");
             exit(EXIT_FAILURE);
         }
     }
@@ -39,7 +40,7 @@ char **split_line(char *line)
 
     if (!tokens)
     {
-        perror("malloc error");
+        perror("alloc error");
         exit(EXIT_FAILURE);
     }
     token = strtok(line, DELIMITER); /* get first token */
@@ -59,7 +60,7 @@ char **split_line(char *line)
             tokens = realloc(tokens, sizeof(char *) * buffer);
             if (!tokens)
             {
-                perror("realloc error");
+                perror("realloc");
                 exit(EXIT_FAILURE);
             }
         }

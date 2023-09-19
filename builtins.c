@@ -16,7 +16,7 @@ int shell_cd(char **args)
         fprintf(stderr, "cd: %s: No such file or directory\n", args[1]);
         return (1);
     }
-    return (-1);
+    return (1);
 }
 
 /**
@@ -26,17 +26,11 @@ int shell_cd(char **args)
  */
 int shell_exit(char **args)
 {
-    /*exit with status 0*/
-    if (args[1] == NULL)
+    if (args[1] != NULL)
     {
-        fprintf(stderr, "exit: too few arguments\n");
-        return (0);
+        fprintf(stderr, "exit: too many arguments\n");
     }
-    else
-    {
-        fprintf(stderr, "exit: %s\n", args[1]);
-        exit(atoi(args[1]));
-    }
+    exit(0);
 }
 
 /**
@@ -65,5 +59,21 @@ int shell_help(char **args)
     else
         fprintf(stderr, " %s: command not found\n", args[1]);
 
-    return (-1);
+    return (1);
+}
+
+/**
+ * shell_clear - clear
+ * @args: array of arguments
+ * Return: 1 on success
+*/
+int shell_clear(char **args)
+{
+    if (args[1] != NULL)
+    {
+        fprintf(stderr, "clear: too many arguments\n");
+        return (1);
+    }
+    system("clear");
+    return (1);
 }

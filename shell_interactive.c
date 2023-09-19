@@ -6,7 +6,7 @@
 void shell_interactive(void)
 {
     char *command;
-    char **args = NULL;
+    char **args;
     int status = 0;
 
     do
@@ -14,11 +14,13 @@ void shell_interactive(void)
         printf(PROMPT);
         /* read line from stdin */
         command = read_line();
+        /* split line into tokens */
         args = split_line(command);
+        /* execute command */
         status = execute_command(args);
+        /* free allocated memory */
         free_line(command);
         free_line_array(args);
-        if (status >= 0)
-            exit(status);
-    } while (status == -1);
+        
+    } while (status);
 }

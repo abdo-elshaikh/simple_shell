@@ -22,7 +22,7 @@ int shell_env(char **args)
         perror("setenv error");
         return (1);
     }
-    return (-1);
+    return (1);
     
 }
 
@@ -42,7 +42,7 @@ int shell_setenv(char **args)
         perror("setenv error");
         return (1);
     }
-    return (-1);
+    return (1);
 }
 
 /**
@@ -61,5 +61,31 @@ int shell_unsetenv(char **args)
         perror("unsetenv error");
         return (1);
     }
-    return (-1);
+    return (1);
+}
+
+/**
+ * shell_alias - function to handle alias
+ * @args: array of arguments
+ * Return: 1 on success
+*/
+int shell_alias(char **args)
+{
+    if (args[1] == NULL)
+    {
+        print_alias();
+        return (0);
+    }
+    else
+    {
+        if (strcmp(args[1], "alias") == 0)
+        {
+            print_specefic_alias(args);
+        }
+        else
+        {
+            define_alias(args);
+        }
+    }
+    return (1);
 }
