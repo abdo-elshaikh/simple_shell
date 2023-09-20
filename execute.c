@@ -10,7 +10,6 @@ int execute_command(char **args)
     if (args[0] == NULL || args[0][0] == '\0')
         return (1);
 
-    /* check if command is a builtin */
     if (strcmp(args[0], "exit") == 0)
         return (shell_exit(args));
     if (strcmp(args[0], "pwd") == 0)
@@ -34,7 +33,6 @@ int execute_command(char **args)
     if (strcmp(args[0], "echo") == 0)
         return (shell_echo(args));
 
-    /* Check for input and output redirection */
     int input = STDIN_FILENO;
     int output = STDOUT_FILENO;
     int append = 0;
@@ -90,13 +88,12 @@ int execute_command(char **args)
         }
     }
 
-    /* create child process */
     pid_t pid;
 
     pid = fork();
     if (pid == 0)
     {
-        /* redirect input and output if needed */
+
         if (input != STDIN_FILENO)
         {
             if (dup2(input, STDIN_FILENO) == -1)
@@ -123,7 +120,6 @@ int execute_command(char **args)
     }
     else
     {
-        /* parent process wait for child process*/
         if (input != STDIN_FILENO)
             close(input);
         if (output != STDOUT_FILENO)
