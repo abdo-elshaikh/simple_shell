@@ -22,12 +22,12 @@
 extern char **environ;
 
 /**
- * struct alias - struct to alias
- * @head: head of struct
+ * struct aliases - struct to alias
+ * @name: head of struct
  * @command: commands
  * @next: poiner to next
  */
-typedef struct Alias
+typedef struct aliases
 {
 	char *name;
 	char *command;
