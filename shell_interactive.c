@@ -12,13 +12,9 @@ void shell_interactive(void)
     do
     {
         printf(PROMPT);
-        /* read line from stdin */
         command = read_line();
-        /* split line into tokens */
         args = split_line(command);
-        /* execute command */
         status = execute_command(args);
-        /* free allocated memory */
         free_line(command);
         free_line_array(args);
         
