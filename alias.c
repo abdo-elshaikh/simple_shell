@@ -54,7 +54,6 @@ void define_alias(char **args)
     {
         fprintf(stderr, "%s\n", "Invalid syntax");
         }
-    /* Check if alias exists and update its value */
     for (i = 0; alias[i].name != NULL; i++)
     {
         if (strcmp(alias[i].name, name) == 0)
@@ -64,7 +63,6 @@ void define_alias(char **args)
             break;
         }
     }
-    /* Add new alias if not exists */
 
     if (alias[i].name == NULL)
     {
