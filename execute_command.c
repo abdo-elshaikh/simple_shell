@@ -17,16 +17,12 @@ int execute_command(char **args)
 
     if (args == NULL || args[0] == NULL)
     {
-        // Empty command or NULL arguments
         return 1;
     }
 
-    // To store the result of the last command
     while (args[i] != NULL)
     {
-         // Flag to check if the command is a logical operator
 
-        // Check for logical operators
         if (strcmp(args[i], "&&") == 0)
         {
             is_logical_operator = 1;
@@ -37,40 +33,33 @@ int execute_command(char **args)
         }
         else if (strcmp(args[i], ";") == 0)
         {
-            // Handle the semicolon as a command separator
             i++;
             continue;
         }
 
         if (!is_logical_operator)
         {
-            // Execute the command
             result = execute_single_command(args + i);
         }
         else
         {
-            // Handle logical operators && and ||
 
             if (strcmp(args[i], "&&") == 0)
             {
-                // Execute the next command only if the previous command succeeded
                 should_execute_next_command = (result == 0);
             }
             else if (strcmp(args[i], "||") == 0)
             {
-                // Execute the next command only if the previous command failed
                 should_execute_next_command = (result != 0);
             }
 
             if (should_execute_next_command)
             {
-                // Execute the next command
                 i++;
                 result = execute_single_command(args + i);
             }
         }
 
-        // Move to the next command
         while (args[i] != NULL && strcmp(args[i], ";") != 0 && strcmp(args[i], "&&") != 0 && strcmp(args[i], "||") != 0)
         {
             i++;
@@ -78,7 +67,6 @@ int execute_command(char **args)
 
         if (args[i] != NULL)
         {
-            // Skip the separator (;, &&, ||)
             i++;
         }
     }
@@ -95,11 +83,9 @@ int execute_single_command(char **args)
 {
     if (args == NULL || args[0] == NULL)
     {
-        // Empty command or NULL arguments
         return 1;
     }
 
-    // Check for built-in commands
     if (strcmp(args[0], "cd") == 0)
     {
         return shell_cd(args);
@@ -141,7 +127,6 @@ int execute_single_command(char **args)
         return shell_alias(args);
     }
 
-    // Create a child process
     pid_t child_pid;
 
     child_pid = fork();
@@ -153,26 +138,16 @@ int execute_single_command(char **args)
 
     if (child_pid == 0)
     {
-        // Child process
 
-        // Execute the command
         execvp(args[0], args);
-        // If execvp fails, perror will display an error message
         perror("shell");
         exit(1);
     }
     else
     {
-        // Parent process
-
-        // Wait for the child process to complete
         int status;
         waitpid(child_pid, &status, 0);
-
-        // Set the exit status of the last command
         last_command_status = WEXITSTATUS(status);
-
-        // Return the exit status of the command
         return last_command_status;
     }
 }
