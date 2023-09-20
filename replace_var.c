@@ -54,7 +54,7 @@ char *replace_variables(char *str)
                     output[output_index++] = '$';
                     output[output_index++] = *(str + 1);
                 }
-                str++; // Skip the next character
+                str++;
                 break;
                 
             default:
