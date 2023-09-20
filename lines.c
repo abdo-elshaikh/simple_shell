@@ -43,10 +43,9 @@ char **split_line(char *line)
         perror("alloc error");
         exit(EXIT_FAILURE);
     }
-    token = strtok(line, DELIMITER); /* get first token */
+    token = strtok(line, DELIMITER);
     while (token)
     {
-        /* handle comments */
         if (token[0] == '#')
         {
             break;
@@ -56,7 +55,6 @@ char **split_line(char *line)
         if (i >= buffer)
         {
             buffer += buffer;
-            /* realloc tokens array */
             tokens = realloc(tokens, sizeof(char *) * buffer);
             if (!tokens)
             {
