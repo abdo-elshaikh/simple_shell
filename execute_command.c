@@ -6,8 +6,6 @@
  * @args: array of tokens
  * Return: 1 on success 0 on failure
  */
-#include "shell.h"
-
 int execute_command(char **args)
 {
     int is_logical_operator = 0;
