@@ -11,7 +11,7 @@ void start_shell_interactive(void)
 	int status = -1;
 
 	do {
-		printf("$ ");
+		printf(PROMPT);
 		line = read_user_input();
 		args = split_input_line(line);
 		status = execute_command(args);

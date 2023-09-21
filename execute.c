@@ -3,7 +3,6 @@
 /**
  * execute_command - Execute command or call a built-in function
  * @args: array of command arguments
- *
  * this function checks built-in function
  * and calls appropriate function
  * if not, it creates new process to execute command
@@ -17,12 +16,14 @@ int execute_command(char **args)
 		"cd",
 		"env",
 		"help",
-		"exit"};
+		"exit"
+		};
 	int (*builtin_pointers[])(char **) = {
 		&change_directory,
 		&print_environment,
 		&show_help,
-		&exit_shell};
+		&exit_shell
+		};
 	size_t i = 0;
 
 	if (args[0] == NULL)

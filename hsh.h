@@ -17,7 +17,7 @@
 #define BUFFER_SIZE 1024
 #define TOK_DELIM " \t\r\n\a"
 #define MAX_HISTORY_SIZE 100
-
+#define PROMPT "> "
 /* environment*/
 extern char **environ;
 
@@ -32,7 +32,6 @@ typedef struct aliases
 	char *name;
 	char *command;
 	struct Alias *next;
-
 } Alias;
 
 /* Function prototypes */
@@ -64,4 +63,5 @@ void remove_directory_from_path(char *directory);
 void handleChildProcess1(int pipe_fd[], char **command1);
 void handleChildProcess2(int pipe_fd[], char **command2);
 void closePipe(int pipe_fd[]);
+int _getline(char **line, size_t *buffer_size, FILE *stdin);
 #endif

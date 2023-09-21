@@ -8,18 +8,16 @@
 int print_environment(char **arguments)
 {
 	int i = 0;
-	(void)(*arguments);
+	char **env = NULL;
+	(void)arguments;
 
-	while (environ[i])
+	env = environ;
+
+	while (env[i] != NULL)
 	{
-		if (strncmp(environ[i], "PATH=", 5) == 0)
-		{
-			printf("%s\n", environ[i]);
-			break;
-		}
+		printf("%s\n", env[i]);
 		i++;
 	}
-
 	return (-1);
 }
 
@@ -29,7 +27,7 @@ int print_environment(char **arguments)
  */
 void set_default_path(void)
 {
-	set_environment("PATH", "/home/kamal/bin");
+	set_environment("PATH", "/home/abdo/bin");
 }
 
 /**

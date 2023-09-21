@@ -28,15 +28,44 @@ char *read_user_input(void)
 }
 /**
  * get_line - Reads a line from standard input
- *
- * Return: The read line (including newline), or NULL on failure or EOF
+ * @line: the line to read
+ * @buffer_size: the size of the buffer
+ * @stdin: standard input
+ * Return: the number of bytes read or -1 on error
  */
-char *get_line()
+int _getline(char **line, size_t *buffer_size, FILE *stdin)
 {
-	char *line = NULL;
-	size_t buffer_size = 0;
+	size_t bytes_read;
+	char *buffer;
+	int c;
 
-	getline(&line, &buffer_size, stdin);
-	line[strcspn(line, "\n")] = '\0';
-	return (line);
+	bytes_read = 0;
+	buffer = malloc(*buffer_size);
+	if (buffer == NULL)
+	{
+		perror("Error while allocating memory");
+		exit(EXIT_FAILURE);
+	}
+	while ((c = fgetc(stdin)) != EOF)
+	{
+		if (c == '\n')
+		{
+			break;
+		}
+		buffer[bytes_read] = c;
+		bytes_read++;
+		if (bytes_read == *buffer_size)
+		{
+			*buffer_size *= 2;
+			buffer = realloc(buffer, *buffer_size);
+			if (buffer == NULL)
+			{
+				perror("Error while reallocating memory");
+				exit(EXIT_FAILURE);
+			}
+		}
+	}
+	buffer[bytes_read] = '\0';
+	*line = buffer;
+	return (bytes_read);
 }

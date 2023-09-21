@@ -78,8 +78,8 @@ int change_directory(char **args)
 		if (chdir(args[1]) != 0)
 		{
 			perror("error in change_directory: Failed to change directory");
-			return (1);
+			return (-1);
 		}
 	}
-	return (1);
+	return (-1);
 }

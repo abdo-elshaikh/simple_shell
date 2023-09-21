@@ -23,6 +23,10 @@ char **split_input_line(char *line)
 		{
 			break;
 		}
+		if (token[0] == ';')
+		{
+			continue;
+		}
 		tokens[i] = token;
 		i++;
 		if (i >= buffer_size)
