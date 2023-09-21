@@ -33,32 +33,14 @@ int show_help(char **args)
  */
 int exit_shell(char **args)
 {
-	if (args[1])
-	{
-		if (strcmp(args[1], "error") == 0)
-		{
-			exit(1);
-		}
-		else if (strcmp(args[1], "help") == 0)
-		{
-			printf("displaying help...\n");
-			exit(0);
-		}
-		else if (strcmp(args[1], "usage") == 0)
-		{
-			printf("displaying usage information...\n");
-			exit(0);
-		}
-		else
-		{
-			int exit_code = atoi(args[1]);
 
-			exit(exit_code);
-		}
+	if (args[1] == NULL)
+	{
+		exit(0);
 	}
 	else
 	{
-		exit(0);
+		exit(atoi(args[1]));
 	}
 }
 
