@@ -36,11 +36,11 @@ int exit_shell(char **args)
 
 	if (args[1] == NULL)
 	{
-		exit(0);
+		return (0);
 	}
 	else
 	{
-		exit(atoi(args[1]));
+		return (atoi(args[1]));
 	}
 }
 
