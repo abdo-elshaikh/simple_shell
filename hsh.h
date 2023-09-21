@@ -59,8 +59,6 @@ int pipe_commands(char **first_command, char **second_command);
 int redirect_output(char *filename);
 int redirect_input(char *filename);
 void handle_signal(int signo);
-Alias *add_alias(Alias *head, const char *name, const char *command);
-const char *find_alias(const Alias *head, const char *name);
 void add_directory_to_path(char *directory);
 void remove_directory_from_path(char *directory);
 void handleChildProcess1(int pipe_fd[], char **command1);
